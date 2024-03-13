@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'auctions',
+    'listings',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -82,6 +83,9 @@ DATABASES = {
 }
 
 AUTH_USER_MODEL = 'auctions.User'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

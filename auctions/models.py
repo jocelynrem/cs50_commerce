@@ -2,22 +2,11 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-class User(models.Model):
-    username = models.CharField(max_length=64, unique=True)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=64)
+class User(AbstractUser):
     watchlist = models.ManyToManyField('Listing', related_name="watchers", blank=True)
     def __str__(self):
         return f"{self.username} ({self.email})"
 
-class Comments(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
-    comment = models.TextField()
-    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="comments")
-    date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.user} commented on {self.listing} at {self.date}"
 
 class Listing(models.Model):
     title = models.CharField(max_length=64)
@@ -32,3 +21,12 @@ class Listing(models.Model):
 
     def __str__(self):
         return f"{self.title} by {self.user}"
+
+class Comments(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
+    comment = models.TextField()
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="comments")
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} commented on {self.listing} at {self.date}"
