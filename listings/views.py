@@ -1,16 +1,11 @@
 from django.shortcuts import render
-from models import Auction
 from django.contrib.auth.decorators import login_required
 
 
 
 # Create your views here.
 def index(request):
-    return render(
-        request,
-        "listings/index.html",
-        {"listings": Auction.objects.filter(active=True)},
-    )
+    return render(request, "listings/index.html")
 
 @login_required
 def create(request):
