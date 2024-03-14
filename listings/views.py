@@ -4,7 +4,11 @@ from models import Auction
 
 # Create your views here.
 def index(request):
-    return render(request, "listings/index.html")
+    return render(
+        request,
+        "listings/index.html",
+        {"listings": Auction.objects.filter(active=True)},
+    )
 
 
 def create(request):
