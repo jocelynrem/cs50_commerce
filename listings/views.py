@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
+from auctions.models import Listing
 
 
 # Create your views here.
-def index(request):
+def listings(request):
     return render(request, "listings/index.html")
+
 
 @login_required
 def create(request):
@@ -13,8 +15,9 @@ def create(request):
 
 
 def listing(request, listing_id):
-    listing_id = Auction.objects.get(pk=listing_id)
-    return render(request, "listings/listing.html")
+    listing_id = Listing.objects.get(pk=listing_id)
+    return render(request, "listings/listing.html", {"listing": listing_id})
+
 
 @login_required
 def watchlist(request):

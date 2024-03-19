@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Listing, Comments
+from .models import User, Listing, Comment
 
 
 # Register your models here.
@@ -19,7 +19,7 @@ class ListingAdmin(admin.ModelAdmin):
     search_fields = ("title", "description", "category")
 
 
-class CommentsAdmin(admin.ModelAdmin):
+class CommentAdmin(admin.ModelAdmin):
     list_display = ("user", "comment", "listing", "date")
     list_filter = ("user", "listing")
     search_fields = ("user", "listing")
@@ -27,4 +27,4 @@ class CommentsAdmin(admin.ModelAdmin):
 
 admin.site.register(User)
 admin.site.register(Listing, ListingAdmin)
-admin.site.register(Comments, CommentsAdmin)
+admin.site.register(Comment, CommentAdmin)
