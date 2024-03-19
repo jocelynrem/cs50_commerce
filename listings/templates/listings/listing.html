@@ -1,25 +1,29 @@
 {% extends "auctions/layout.html" %}
-
-{% block title %}{{ listing.title }} - Auctions Site{% endblock %}
-
+{% block title %}
+    {{ listing.title }} - Auctions Site
+{% endblock title %}
 {% block body %}
     <h1>{{ listing.title }}</h1>
     <div class="card">
         {% if listing.image %}
-            <img src="{{ listing.image }}" class="card-img-top" alt="{{ listing.title }}">
+            <img src="{{ listing.image }}"
+                 class=" listing-image"
+                 alt="{{ listing.title }}">
         {% endif %}
         <div class="card-body">
             <h5 class="card-title">Starting Bid: ${{ listing.starting_bid }}</h5>
             <p class="card-text">{{ listing.description }}</p>
-            <p class="card-text"><small class="text-muted">Category: {{ listing.category }}</small></p>
-            <p class="card-text"><small class="text-muted">Listed by {{ listing.user.username }} on {{ listing.date|date:"M d, Y" }}</small></p>
+            <p class="card-text">
+                <small class="text-muted">Category: {{ listing.category }}</small>
+            </p>
+            <p class="card-text">
+                <small class="text-muted">Listed by {{ listing.user.username }} on {{ listing.date|date:"M d, Y" }}</small>
+            </p>
             {% if listing.active %}
                 <a href="#" class="btn btn-primary">Place a Bid</a>
             {% else %}
-                <div class="alert alert-success" role="alert">
-                    This listing has ended. Winner: {{ listing.winner.username }}
-                </div>
+                <div class="alert alert-success" role="alert">This listing has ended. Winner: {{ listing.winner.username }}</div>
             {% endif %}
         </div>
     </div>
-{% endblock %}
+{% endblock body %}

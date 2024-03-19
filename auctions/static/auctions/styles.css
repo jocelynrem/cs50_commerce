@@ -1,3 +1,25 @@
 body {
-    padding: 10px;
+  padding: 10px;
+}
+
+.listing-image {
+  display: block;
+  max-width: 50%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Custom styles for uniform card heights and image sizes */
+.card-img-top {
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Spaces out the content and button */
 }
