@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
-from auctions.models import Listing
+
+from auctions.models import Listing, User, Comment
 
 
 # Create your views here.
@@ -15,8 +16,8 @@ def create(request):
 
 
 def listing(request, listing_id):
-    listing_id = Listing.objects.get(pk=listing_id)
-    return render(request, "listings/listing.html", {"listing": listing_id})
+    listing = get_object_or_404(Listing, pk=listing_id)
+    return render(request, 'listings/listing.html', {'listing': listing})
 
 
 @login_required

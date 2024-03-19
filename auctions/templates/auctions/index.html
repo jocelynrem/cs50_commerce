@@ -15,7 +15,8 @@
                     <p class="card-text">
                         <small class="text-muted">Listed on {{ listing.date|date:"M d, Y" }}</small>
                     </p>
-                    <a href="#" class="btn btn-primary">View Listing</a>
+                    <a href="{% url 'listings:listing' listing.id %}"
+                       class="btn btn-primary">View Listing</a>
                 </div>
             </div>
         </div>
