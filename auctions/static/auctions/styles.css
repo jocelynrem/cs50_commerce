@@ -12,14 +12,17 @@ body {
 
 /* Custom styles for uniform card heights and image sizes */
 .card-img-top {
-  width: 100%;
-  height: auto;
-  max-height: 200px;
-  object-fit: cover;
+  max-height: 400px; /* Limit image height */
+  object-fit: cover; /* Ensure the image covers the area */
 }
 
 .card-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* Spaces out the content and button */
+  position: relative; /* For positioning elements inside the card */
+}
+
+.btn-warning {
+  position: absolute; /* Position the close button at the bottom */
+  bottom: 20px; /* Distance from the bottom */
+  left: 50%;
+  transform: translateX(-50%); /* Center the button */
 }

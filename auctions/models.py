@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models import Max
 
 
 class User(AbstractUser):
@@ -22,6 +23,19 @@ class Listing(models.Model):
         User, on_delete=models.CASCADE, related_name="won", blank=True, null=True
     )
 
+    def highest_bid(self):
+        highest_bid = self.bid_set.aggregate(Max("amount"))["amount__max"]
+        if highest_bid is not None:
+            return highest_bid
+        return None
+
+    def display_bid(self):
+        highest_bid = self.highest_bid()
+        if highest_bid is not None:
+            return f"Highest Bid: ${highest_bid}"
+        else:
+            return f"Starting Bid: ${self.starting_bid}"
+
     def __str__(self):
         return f"{self.title} by {self.user}"
 
@@ -39,11 +53,9 @@ class Comment(models.Model):
 
 
 class Bid(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_bids")
-    listing = models.ForeignKey(
-        Listing, on_delete=models.CASCADE, related_name="listing_bids"
-    )
-    amount = models.DecimalField(max_digits=12, decimal_places=2)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    listing = models.ForeignKey("Listing", on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"{self.user.username} bids {self.amount} on {self.listing.title}"
+        return f"{self.amount} by {self.user.username}"

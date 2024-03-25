@@ -14,13 +14,13 @@
                             <h5 class="card-title">{{ listing.title }}</h5>
                             <p class="card-text">
                                 {{ listing.description|truncatewords:20 }}
-                                <a href="{% url 'listings:listing' listing.id %}">Read More</a>
+                                <a href="{% url 'listings:listing_detail' listing.id %}">Read More</a>
                             </p>
-                            <p class="card-text">Starting Bid: ${{ listing.starting_bid }}</p>
+                            <p class="card-text">{{ listing.display_bid }}</p>
                             <p class="card-text">
                                 <small class="text-muted">Listed on {{ listing.date|date:"M d, Y" }}</small>
                             </p>
-                            <a href="{% url 'listings:listing' listing.id %}"
+                            <a href="{% url 'listings:listing_detail' listing.id %}"
                                class="btn btn-primary mt-auto">View Listing</a>
                         </div>
                     </div>
