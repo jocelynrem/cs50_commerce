@@ -36,3 +36,14 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.user} commented on {self.listing} at {self.date}"
+
+
+class Bid(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_bids")
+    listing = models.ForeignKey(
+        Listing, on_delete=models.CASCADE, related_name="listing_bids"
+    )
+    amount = models.DecimalField(max_digits=12, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.user.username} bids {self.amount} on {self.listing.title}"
