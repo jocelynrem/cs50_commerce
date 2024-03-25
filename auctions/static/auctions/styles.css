@@ -26,3 +26,12 @@ body {
   left: 50%;
   transform: translateX(-50%); /* Center the button */
 }
+
+.card-body .form-group {
+  width: 100%; /* Set width to 100% */
+}
+
+.comment-field {
+  width: 100%;
+  margin-bottom: 10px;
+}

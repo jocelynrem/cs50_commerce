@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import BidForm
+from .forms import BidForm, CommentForm
 
 
 from auctions.models import Listing, User, Comment, Bid
@@ -34,26 +34,37 @@ def close_auction(request, listing_id):
 def listing_detail(request, listing_id):
     listing = get_object_or_404(Listing, pk=listing_id)
     highest_bid = listing.bid_set.order_by("-amount").first()
+    comments = listing.comments.all()
+    bid_form = BidForm(listing_id=listing_id)
+    comment_form = CommentForm()
 
     if request.method == "POST" and request.user.is_authenticated:
-        form = BidForm(request.POST, listing_id=listing_id)
-        if form.is_valid():
-            bid = form.save(commit=False)
-            bid.user = request.user
-            bid.listing = listing
-            bid.save()
-            messages.success(request, "Your bid was successfully placed.")
-            return redirect("listings:listing_detail", listing_id=listing_id)
-        else:
-            messages.error(request, form.errors)
-    else:
-        form = BidForm(listing_id=listing_id)
+        if "submit_bid" in request.POST:
+            bid_form = BidForm(request.POST, listing_id=listing_id)
+            if bid_form.is_valid():
+                bid = bid_form.save(commit=False)
+                bid.user = request.user
+                bid.listing = listing
+                bid.save()
+                messages.success(request, "Your bid was successfully placed.")
+                return redirect("listings:listing_detail", listing_id=listing_id)
+        elif "submit_comment" in request.POST:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.user = request.user
+                comment.listing = listing
+                comment.save()
+                messages.success(request, "Your comment was posted.")
+                return redirect("listings:listing_detail", listing_id=listing_id)
 
-    # Include highest_bid in the context
+    # Prepare the context
     context = {
         "listing": listing,
-        "form": form,
+        "form": bid_form,  # Pass the bid form as 'form'
         "highest_bid": highest_bid,
+        "comments": comments,
+        "comment_form": comment_form,  # Include the initialized or processed comment form
     }
     return render(request, "listings/listing_detail.html", context)
 

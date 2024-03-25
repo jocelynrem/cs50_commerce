@@ -1,5 +1,5 @@
 from django import forms
-from auctions.models import Bid, Listing
+from auctions.models import Bid, Listing, Comment
 
 
 class BidForm(forms.ModelForm):
@@ -30,3 +30,11 @@ class BidForm(forms.ModelForm):
             raise forms.ValidationError("Bid must be greater than all existing bids.")
 
         return amount
+    
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['comment']
+        labels = {'comment': 'Leave a comment'}
+
