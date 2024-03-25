@@ -31,6 +31,15 @@
                                 <strong>Starting Bid:</strong> ${{ listing.starting_bid }}
                             </p>
                         {% endif %}
+                        {% if not listing.active %}
+                            {% if listing.winner == user %}
+                                <div class="alert alert-success" role="alert">Congratulations! You won this auction.</div>
+                            {% elif listing.winner %}
+                                <div class="alert alert-info" role="alert">This auction has ended. Winner: {{ listing.winner.username }}</div>
+                            {% else %}
+                                <div class="alert alert-info" role="alert">This auction has ended with no bids.</div>
+                            {% endif %}
+                        {% endif %}
                         {% if listing.active %}
                             <form method="post" class="mt-3">
                                 {% csrf_token %}
