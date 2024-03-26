@@ -26,6 +26,11 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-item nav-link" href="{% url 'index' %}">Active Listings</a>
+                    <a class="nav-item nav-link" href="{% url 'listings:category_list' %}">Categories</a>
+                    {% if user.is_authenticated %}
+                        <a class="nav-item nav-link" href="{% url 'listings:watchlist' %}">Watchlist</a>
+                        <a class="nav-item nav-link" href="{% url 'listings:create_listing' %}">Create Listing</a>
+                    {% endif %}
                 </div>
                 <!-- Authentication Links -->
                 <div class="navbar-nav ml-auto">

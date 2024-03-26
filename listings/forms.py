@@ -1,5 +1,5 @@
 from django import forms
-from auctions.models import Bid, Listing, Comment
+from auctions.models import Bid, Listing, Comment, Category
 
 
 class BidForm(forms.ModelForm):
@@ -37,4 +37,23 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['comment']
         labels = {'comment': 'Leave a comment'}
+
+
+CATEGORY_CHOICES = [
+    ('fashion', 'Fashion'),
+    ('toys', 'Toys'),
+    ('electronics', 'Electronics'),
+    ('home', 'Home'),
+    ('baby', 'Baby'),
+    ('auto', 'Auto'),
+    ('other', 'Other'),
+    # Add more as needed
+]
+
+class ListingForm(forms.ModelForm):
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), required=False, empty_label="Choose a category")
+
+    class Meta:
+        model = Listing
+        fields = ['title', 'description', 'starting_bid', 'image', 'category']
 

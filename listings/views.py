@@ -1,10 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import BidForm, CommentForm
+from .forms import BidForm, CommentForm, ListingForm
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
-from auctions.models import Listing, User, Comment, Bid
+from auctions.models import Listing, User, Comment, Bid, Category
 
 
 # Create your views here.
@@ -70,14 +72,49 @@ def listing_detail(request, listing_id):
 
 
 @login_required
-def create(request):
-    return render(request, "listings/create.html")
+def create_listing(request):
+    if request.method == 'POST':
+        form = ListingForm(request.POST)
+        if form.is_valid():
+            listing = form.save(commit=False)
+            listing.user = request.user  # Set the current user as the listing owner
+            listing.save()
+            messages.success(request, 'Your listing has been created successfully.')
+            return redirect('index')  # Adjust the redirect as needed
+    else:
+        form = ListingForm()
+    return render(request, 'listings/create_listing.html', {'form': form})
+
 
 
 @login_required
 def watchlist(request):
-    return render(request, "listings/watchlist.html")
+    user = request.user
+    watchlist_items = user.watchlist.all()  # Get all watchlist items for the user
+    return render(request, 'listings/watchlist.html', {'watchlist_items': watchlist_items})
 
 
-def categories(request):
-    return render(request, "listings/categories.html")
+@login_required
+def toggle_watchlist(request, listing_id):
+    listing = Listing.objects.get(pk=listing_id)
+    if listing.watchers.filter(pk=request.user.pk).exists():
+        listing.watchers.remove(request.user)
+    else:
+        listing.watchers.add(request.user)
+    
+    # Use the namespaced URL name
+    return HttpResponseRedirect(reverse('listings:listing_detail', args=[listing_id]))
+
+
+
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, "listings/category_list.html", {"categories": categories})
+
+
+def listings_by_category(request, category_id):
+    category = get_object_or_404(Category, pk=category_id)
+    listings = category.listings.filter(active=True)
+    return render(request, "listings/listings_by_category.html", {"category": category, "listings": listings})
+
+

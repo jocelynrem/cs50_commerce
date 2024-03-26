@@ -12,6 +12,17 @@
                              alt="{{ listing.title }}">
                     {% endif %}
                     <div class="card-body">
+                        {% if user.is_authenticated %}
+                            <form action="{% url 'listings:toggle_watchlist' listing.id %}"
+                                  method="post">
+                                {% csrf_token %}
+                                {% if listing in user.watchlist.all %}
+                                    <button type="submit" class="btn btn-warning">Remove from Watchlist</button>
+                                {% else %}
+                                    <button type="submit" class="btn btn-success">Add to Watchlist</button>
+                                {% endif %}
+                            </form>
+                        {% endif %}
                         <h5 class="card-title text-center mb-3">{{ listing.title }}</h5>
                         <p class="card-text">{{ listing.description }}</p>
                         <p class="mb-1">
@@ -43,7 +54,7 @@
                             <form method="post" class="mt-3">
                                 {% csrf_token %}
                                 {{ form.as_p }}
-                                <button type="submit" class="btn btn-primary">Place a Bid</button>
+                                <button type="submit" name="submit_bid" class="btn btn-primary">Place a Bid</button>
                                 {% if form.errors %}<div class="alert alert-danger mt-2">{{ form.errors }}</div>{% endif %}
                             </form>
                         {% else %}

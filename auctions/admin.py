@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Listing, Comment, Bid
+from .models import User, Listing, Comment, Bid, Category
 
 
 # Register your models here.
@@ -28,8 +28,14 @@ class CommentAdmin(admin.ModelAdmin):
 class BidAdmin(admin.ModelAdmin):
     list_display = ("user", "listing", "amount")
 
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name',)  # Display these fields in the list view
+    search_fields = ['name']  # Allow searching by name
+
+
 
 admin.site.register(User)
 admin.site.register(Listing, ListingAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Bid, BidAdmin)
+admin.site.register(Category, CategoryAdmin)
