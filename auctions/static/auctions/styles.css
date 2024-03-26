@@ -20,13 +20,6 @@ body {
   position: relative; /* For positioning elements inside the card */
 }
 
-.btn-warning {
-  position: absolute; /* Position the close button at the bottom */
-  bottom: 20px; /* Distance from the bottom */
-  left: 50%;
-  transform: translateX(-50%); /* Center the button */
-}
-
 .card-body .form-group {
   width: 100%; /* Set width to 100% */
 }
