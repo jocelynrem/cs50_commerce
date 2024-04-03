@@ -1,0 +1,30 @@
+body {
+  padding: 10px;
+}
+
+.listing-image {
+  display: block;
+  max-width: 50%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Custom styles for uniform card heights and image sizes */
+.card-img-top {
+  max-height: 400px; /* Limit image height */
+  object-fit: cover; /* Ensure the image covers the area */
+}
+
+.card-body {
+  position: relative; /* For positioning elements inside the card */
+}
+
+.card-body .form-group {
+  width: 100%; /* Set width to 100% */
+}
+
+.comment-field {
+  width: 100%;
+  margin-bottom: 10px;
+}
